@@ -1,0 +1,9 @@
+version: "3"
+
+services:
+    deluge:
+        image: deividfortuna/auto-invest-sharesies:0.0.1
+        container_name: auto-invest-sharesies
+        volumes:
+        - './config/:/config'
+        restart: unless-stopped
