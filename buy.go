@@ -9,13 +9,14 @@ import (
 
 var orderCostBuyType = "order_cost_buy"
 
-func buyOrders(ctx context.Context, creds *Credentials, orders []BuyOrder) error {
-	s, err := sharesies.New(nil)
-	if err != nil {
-		return err
-	}
+type SharesiesClient interface {
+	Authenticate(ctx context.Context, creds *sharesies.Credentials) (*sharesies.ProfileResponse, error)
+	CostBuy(ctx context.Context, fundId string, amount float64) (*sharesies.CostBuyResponse, error)
+	Buy(ctx context.Context, costBuy *sharesies.CostBuyResponse) (*sharesies.ProfileResponse, error)
+}
 
-	_, err = s.Authenticate(ctx, &sharesies.Credentials{
+func buyOrders(ctx context.Context, s SharesiesClient, creds *Credentials, orders []BuyOrder) error {
+	_, err := s.Authenticate(ctx, &sharesies.Credentials{
 		Username: creds.Username,
 		Password: creds.Password,
 	})

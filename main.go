@@ -7,6 +7,7 @@ import (
 	"os/signal"
 	"syscall"
 
+	"github.com/deividfortuna/sharesies"
 	"github.com/robfig/cron/v3"
 )
 
@@ -27,8 +28,11 @@ func main() {
 	err = load("config/auto_invest.yml", a)
 	checkErr(err)
 
+	s, err := sharesies.New(nil)
+	checkErr(err)
+
 	cr.AddFunc(a.Scheduler, func() {
-		err = buyOrders(ctx, c, a.Buy)
+		err = buyOrders(ctx, s, c, a.Buy)
 		checkErr(err)
 	})
 
