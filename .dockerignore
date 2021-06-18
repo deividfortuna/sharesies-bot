@@ -1,0 +1,6 @@
+config/
+.vscode/
+
+Dockerfile
+.dockerignore
+docker-compose.yml

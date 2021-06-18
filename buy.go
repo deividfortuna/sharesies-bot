@@ -1,4 +1,4 @@
-package main
+package shresiesbot
 
 import (
 	"context"
@@ -9,13 +9,7 @@ import (
 
 var orderCostBuyType = "order_cost_buy"
 
-type SharesiesClient interface {
-	Authenticate(ctx context.Context, creds *sharesies.Credentials) (*sharesies.ProfileResponse, error)
-	CostBuy(ctx context.Context, fundId string, amount float64) (*sharesies.CostBuyResponse, error)
-	Buy(ctx context.Context, costBuy *sharesies.CostBuyResponse) (*sharesies.ProfileResponse, error)
-}
-
-func buyOrders(ctx context.Context, s SharesiesClient, creds *Credentials, orders []BuyOrder) error {
+func buyOrders(ctx context.Context, s ExchangeClient, creds *Credentials, orders []BuyOrder) error {
 	_, err := s.Authenticate(ctx, &sharesies.Credentials{
 		Username: creds.Username,
 		Password: creds.Password,

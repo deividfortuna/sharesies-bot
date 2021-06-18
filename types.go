@@ -1,4 +1,4 @@
-package main
+package shresiesbot
 
 type Credentials struct {
 	Username string `validate:"required"`
@@ -6,12 +6,17 @@ type Credentials struct {
 }
 
 type BuyOrder struct {
-	Reference string
-	Id        string
-	Amount    float64
+	Reference string  `validate:"required"`
+	Id        string  `validate:"required"`
+	Amount    float64 `validate:"required"`
+}
+
+type BuyConfiguration struct {
+	Scheduler string     `validate:"required"`
+	Orders    []BuyOrder `validate:"required"`
 }
 
 type AutoInvest struct {
-	Scheduler string     `validate:"required"`
-	Buy       []BuyOrder `validate:"required"`
+	Sharesies *Credentials
+	Buy       *BuyConfiguration
 }

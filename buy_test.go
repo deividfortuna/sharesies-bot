@@ -1,13 +1,14 @@
-package main
+package shresiesbot
 
 import (
 	"context"
 	"errors"
 	"testing"
 
-	"github.com/deividfortuna/auto-invest-sharesies/mocks"
 	"github.com/deividfortuna/sharesies"
 	"github.com/stretchr/testify/assert"
+
+	"github.com/deividfortuna/auto-invest-sharesies/mocks"
 )
 
 var mockOrder = &BuyOrder{
@@ -23,7 +24,7 @@ var mockOrders = []BuyOrder{
 func Test_Buy(t *testing.T) {
 	ctx := context.Background()
 
-	sharesiesMock := &mocks.SharesiesClient{}
+	sharesiesMock := &mocks.ExchangeClient{}
 	costBuyResponseMock := &sharesies.CostBuyResponse{
 		FundID:    mockOrder.Id,
 		TotalCost: "100.00",
@@ -40,13 +41,14 @@ func Test_Buy(t *testing.T) {
 	}, mockOrders)
 
 	assert.Nil(t, err)
+	sharesiesMock.AssertExpectations(t)
 }
 
 func Test_Buy_Fail_Auth(t *testing.T) {
 	ctx := context.Background()
 	errAuthFailed := errors.New("auth_failed")
 
-	sharesiesMock := &mocks.SharesiesClient{}
+	sharesiesMock := &mocks.ExchangeClient{}
 	sharesiesMock.On("Authenticate", ctx, &sharesies.Credentials{Username: "username", Password: "passowrd"}).Return(nil, errAuthFailed)
 
 	err := buyOrders(ctx, sharesiesMock, &Credentials{
@@ -55,13 +57,14 @@ func Test_Buy_Fail_Auth(t *testing.T) {
 	}, mockOrders)
 
 	assert.Error(t, err, errAuthFailed)
+	sharesiesMock.AssertExpectations(t)
 }
 
 func Test_Buy_Fail_Get_Price_Generic(t *testing.T) {
 	ctx := context.Background()
 	errGeneric := errors.New("generic_error")
 
-	sharesiesMock := &mocks.SharesiesClient{}
+	sharesiesMock := &mocks.ExchangeClient{}
 
 	sharesiesMock.On("Authenticate", ctx, &sharesies.Credentials{Username: "username", Password: "passowrd"}).Return(nil, nil)
 	sharesiesMock.On("CostBuy", ctx, mockOrder.Id, mockOrder.Amount).Return(nil, errGeneric)
@@ -72,12 +75,13 @@ func Test_Buy_Fail_Get_Price_Generic(t *testing.T) {
 	}, mockOrders)
 
 	assert.ErrorIs(t, err, errGeneric)
+	sharesiesMock.AssertExpectations(t)
 }
 
 func Test_Buy_Fail_Get_Price(t *testing.T) {
 	ctx := context.Background()
 
-	sharesiesMock := &mocks.SharesiesClient{}
+	sharesiesMock := &mocks.ExchangeClient{}
 	costBuyResponseMock := &sharesies.CostBuyResponse{
 		FundID:    mockOrder.Id,
 		TotalCost: "100.00",
@@ -93,13 +97,14 @@ func Test_Buy_Fail_Get_Price(t *testing.T) {
 	}, mockOrders)
 
 	assert.Error(t, err)
+	sharesiesMock.AssertExpectations(t)
 }
 
 func Test_Buy_Fail_Buy(t *testing.T) {
 	ctx := context.Background()
 	errBuy := errors.New("fail_buying")
 
-	sharesiesMock := &mocks.SharesiesClient{}
+	sharesiesMock := &mocks.ExchangeClient{}
 	costBuyResponseMock := &sharesies.CostBuyResponse{
 		FundID:    mockOrder.Id,
 		TotalCost: "100.00",
@@ -116,4 +121,5 @@ func Test_Buy_Fail_Buy(t *testing.T) {
 	}, mockOrders)
 
 	assert.ErrorIs(t, err, errBuy)
+	sharesiesMock.AssertExpectations(t)
 }

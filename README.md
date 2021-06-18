@@ -2,6 +2,8 @@
 
 Currently, [Sharesies NZ](http://sharesies.nz) only support auto-invest for managed funds what creates the need for this application to apply dollar-cost averaging for companies on NZ Market Exchange.
 
+The project is under heavy development so interfaces and structure of the configuration files might/will change. The current implementation is an MVP put together in a couple of hours.
+
 ### Scheduler
 Linux crontab compatible instruction for executing orders
 
@@ -21,22 +23,19 @@ More information:
 
 ### Configuration 
 
-`config/credentials.yml`
-```yml
-username: test@test.com
-password: password
-```
-
-
 `config/auto_invest.yml`
 ```yml
-scheduler: "0 8 * * MON" # Monday 8am
+sharesies:
+  username: test@test.com
+  password: password
 
 buy:
-  - reference: Delegat Group # Only for log porpose
-    id: 0545fbc5-b579-4944-9057-55d01849a493
-    amount: 1.00
-  - reference: ANZ # Only for log porpose
-    id: 860a502e-d07c-435e-9dcc-7d4631a4ee21
-    amount: 1.00
+  scheduler: "0 8 * * MON" # Monday 8am
+  orders:
+    - reference: Delegat Group # Only for log porpose
+      id: 0545fbc5-b579-4944-9057-55d01849a493
+      amount: 1.00
+    - reference: ANZ # Only for log porpose
+      id: 860a502e-d07c-435e-9dcc-7d4631a4ee21
+      amount: 1.00
 ```

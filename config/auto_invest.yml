@@ -1,9 +1,13 @@
-scheduler: "0 8 * * MON"
+sharesies:
+  username: test@test.com
+  password: password
 
 buy:
-  - reference: Delegat Group
-    id: 0545fbc5-b579-4944-9057-55d01849a493
-    amount: 1.00
-  - reference: ANZ
-    id: 860a502e-d07c-435e-9dcc-7d4631a4ee21
-    amount: 1.00
+  scheduler: "0 8 * * MON"
+  orders:
+    - reference: Delegat Group
+      id: 0545fbc5-b579-4944-9057-55d01849a493
+      amount: 1.00
+    - reference: ANZ
+      id: 860a502e-d07c-435e-9dcc-7d4631a4ee21
+      amount: 1.00

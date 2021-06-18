@@ -1,3 +1,6 @@
+.PHONY: build
+.PHONY: publish
+
 image = deividfortuna/auto-invest-sharesies
 tag = 0.0.1
 

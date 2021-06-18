@@ -10,8 +10,9 @@ COPY go.sum .
 RUN go mod download
 
 COPY . .
+COPY cmd/ ./cmd/
 
-RUN go build -ldflags="-s -w -X main.Version=$VERSION" -o ./out/auto-invest-sharesies
+RUN go build -ldflags="-s -w -X main.Version=$VERSION" -o ./out/auto-invest-sharesies ./cmd/ 
 
 
 FROM alpine:3.9 
