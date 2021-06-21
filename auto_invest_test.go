@@ -8,8 +8,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 
-	autoinvest "github.com/deividfortuna/auto-invest-sharesies"
-	"github.com/deividfortuna/auto-invest-sharesies/mocks"
+	autoinvest "github.com/deividfortuna/sharesies-bot"
+	"github.com/deividfortuna/sharesies-bot/mocks"
 )
 
 func Test_Run(t *testing.T) {

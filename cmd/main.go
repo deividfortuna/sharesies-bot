@@ -6,17 +6,21 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 
 	"github.com/deividfortuna/sharesies"
 	"github.com/go-playground/validator/v10"
 	"github.com/robfig/cron/v3"
 	"gopkg.in/yaml.v2"
 
-	autoinvest "github.com/deividfortuna/auto-invest-sharesies"
+	autoinvest "github.com/deividfortuna/sharesies-bot"
 )
 
 func main() {
+	timezone, _ := time.LoadLocation("Pacific/Auckland")
+
 	scheduler := cron.New(
+		cron.WithLocation(timezone),
 		cron.WithLogger(
 			cron.VerbosePrintfLogger(log.New(os.Stdout, "Scheduler: ", log.LstdFlags))))
 

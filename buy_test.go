@@ -8,7 +8,7 @@ import (
 	"github.com/deividfortuna/sharesies"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/deividfortuna/auto-invest-sharesies/mocks"
+	"github.com/deividfortuna/sharesies-bot/mocks"
 )
 
 var mockOrder = &BuyOrder{

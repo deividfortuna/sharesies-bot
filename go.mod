@@ -1,4 +1,4 @@
-module github.com/deividfortuna/auto-invest-sharesies
+module github.com/deividfortuna/sharesies-bot
 
 go 1.16
 

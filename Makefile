@@ -1,7 +1,7 @@
 .PHONY: build
 .PHONY: publish
 
-image = deividfortuna/auto-invest-sharesies
+image = deividfortuna/sharesies-bot
 tag = 0.0.1
 
 build: 
