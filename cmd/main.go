@@ -13,11 +13,18 @@ import (
 	"github.com/robfig/cron/v3"
 	"gopkg.in/yaml.v2"
 
-	autoinvest "github.com/deividfortuna/sharesies-bot"
+	shresiesbot "github.com/deividfortuna/sharesies-bot"
 )
 
+const defaultTimeZone = "Pacific/Auckland"
+
 func main() {
-	timezone, _ := time.LoadLocation("Pacific/Auckland")
+	tz := os.Getenv("TZ")
+	if tz == "" {
+		tz = defaultTimeZone
+	}
+
+	timezone, _ := time.LoadLocation(tz)
 
 	scheduler := cron.New(
 		cron.WithLocation(timezone),
@@ -29,12 +36,17 @@ func main() {
 		log.Fatal(err)
 	}
 
-	config, err := loadConfig()
+	filepath := os.Getenv("CONFIG_FILE")
+	if filepath == "" {
+		filepath = "config/auto_invest.yml"
+	}
+	config, err := loadConfig(filepath)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	err = autoinvest.Run(scheduler, exchange, config)
+	bot := shresiesbot.New(scheduler, exchange, config)
+	err = bot.Run()
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -53,9 +65,9 @@ func main() {
 	log.Println("Successful shutdown.")
 }
 
-func loadConfig() (*autoinvest.AutoInvest, error) {
-	v := &autoinvest.AutoInvest{}
-	f, err := ioutil.ReadFile("config/auto_invest.yml")
+func loadConfig(filePath string) (*shresiesbot.AutoInvest, error) {
+	v := &shresiesbot.AutoInvest{}
+	f, err := ioutil.ReadFile(filePath)
 	if err != nil {
 		return nil, err
 	}

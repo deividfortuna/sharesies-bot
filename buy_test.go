@@ -3,6 +3,7 @@ package shresiesbot
 import (
 	"context"
 	"errors"
+	"log"
 	"testing"
 
 	"github.com/deividfortuna/sharesies"
@@ -10,6 +11,16 @@ import (
 
 	"github.com/deividfortuna/sharesies-bot/mocks"
 )
+
+var mockConfiguration = &AutoInvest{
+	Buy: &BuyConfiguration{
+		Orders: mockOrders,
+	},
+	Sharesies: &Credentials{
+		Username: "username",
+		Password: "passowrd",
+	},
+}
 
 var mockOrder = &BuyOrder{
 	Reference: "reference",
@@ -35,10 +46,14 @@ func Test_Buy(t *testing.T) {
 	sharesiesMock.On("CostBuy", ctx, mockOrder.Id, mockOrder.Amount).Return(costBuyResponseMock, nil)
 	sharesiesMock.On("Buy", ctx, costBuyResponseMock).Return(nil, nil)
 
-	err := buyOrders(ctx, sharesiesMock, &Credentials{
-		Username: "username",
-		Password: "passowrd",
-	}, mockOrders)
+	bot := &SharesiesBot{
+		scheduler: &mocks.Scheduler{},
+		client:    sharesiesMock,
+		config:    mockConfiguration,
+		logger:    log.Default(),
+	}
+
+	err := bot.buyOrders(ctx, mockOrders)
 
 	assert.Nil(t, err)
 	sharesiesMock.AssertExpectations(t)
@@ -51,10 +66,14 @@ func Test_Buy_Fail_Auth(t *testing.T) {
 	sharesiesMock := &mocks.ExchangeClient{}
 	sharesiesMock.On("Authenticate", ctx, &sharesies.Credentials{Username: "username", Password: "passowrd"}).Return(nil, errAuthFailed)
 
-	err := buyOrders(ctx, sharesiesMock, &Credentials{
-		Username: "username",
-		Password: "passowrd",
-	}, mockOrders)
+	bot := &SharesiesBot{
+		scheduler: &mocks.Scheduler{},
+		client:    sharesiesMock,
+		config:    mockConfiguration,
+		logger:    log.Default(),
+	}
+
+	err := bot.buyOrders(ctx, mockOrders)
 
 	assert.Error(t, err, errAuthFailed)
 	sharesiesMock.AssertExpectations(t)
@@ -69,10 +88,14 @@ func Test_Buy_Fail_Get_Price_Generic(t *testing.T) {
 	sharesiesMock.On("Authenticate", ctx, &sharesies.Credentials{Username: "username", Password: "passowrd"}).Return(nil, nil)
 	sharesiesMock.On("CostBuy", ctx, mockOrder.Id, mockOrder.Amount).Return(nil, errGeneric)
 
-	err := buyOrders(ctx, sharesiesMock, &Credentials{
-		Username: "username",
-		Password: "passowrd",
-	}, mockOrders)
+	bot := &SharesiesBot{
+		scheduler: &mocks.Scheduler{},
+		client:    sharesiesMock,
+		config:    mockConfiguration,
+		logger:    log.Default(),
+	}
+
+	err := bot.buyOrders(ctx, mockOrders)
 
 	assert.ErrorIs(t, err, errGeneric)
 	sharesiesMock.AssertExpectations(t)
@@ -91,10 +114,14 @@ func Test_Buy_Fail_Get_Price(t *testing.T) {
 	sharesiesMock.On("Authenticate", ctx, &sharesies.Credentials{Username: "username", Password: "passowrd"}).Return(nil, nil)
 	sharesiesMock.On("CostBuy", ctx, mockOrder.Id, mockOrder.Amount).Return(costBuyResponseMock, nil)
 
-	err := buyOrders(ctx, sharesiesMock, &Credentials{
-		Username: "username",
-		Password: "passowrd",
-	}, mockOrders)
+	bot := &SharesiesBot{
+		scheduler: &mocks.Scheduler{},
+		client:    sharesiesMock,
+		config:    mockConfiguration,
+		logger:    log.Default(),
+	}
+
+	err := bot.buyOrders(ctx, mockOrders)
 
 	assert.Error(t, err)
 	sharesiesMock.AssertExpectations(t)
@@ -115,10 +142,14 @@ func Test_Buy_Fail_Buy(t *testing.T) {
 	sharesiesMock.On("CostBuy", ctx, mockOrder.Id, mockOrder.Amount).Return(costBuyResponseMock, nil)
 	sharesiesMock.On("Buy", ctx, costBuyResponseMock).Return(nil, errBuy)
 
-	err := buyOrders(ctx, sharesiesMock, &Credentials{
-		Username: "username",
-		Password: "passowrd",
-	}, mockOrders)
+	bot := &SharesiesBot{
+		scheduler: &mocks.Scheduler{},
+		client:    sharesiesMock,
+		config:    mockConfiguration,
+		logger:    log.Default(),
+	}
+
+	err := bot.buyOrders(ctx, mockOrders)
 
 	assert.ErrorIs(t, err, errBuy)
 	sharesiesMock.AssertExpectations(t)

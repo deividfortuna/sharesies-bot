@@ -9,20 +9,20 @@ import (
 
 var orderCostBuyType = "order_cost_buy"
 
-func buyOrders(ctx context.Context, s ExchangeClient, creds *Credentials, orders []BuyOrder) error {
-	_, err := s.Authenticate(ctx, &sharesies.Credentials{
-		Username: creds.Username,
-		Password: creds.Password,
+func (b *SharesiesBot) buyOrders(ctx context.Context, orders []BuyOrder) error {
+	_, err := b.client.Authenticate(ctx, &sharesies.Credentials{
+		Username: b.config.Sharesies.Username,
+		Password: b.config.Sharesies.Password,
 	})
 	if err != nil {
-		logger.Println("Failed to authenticated Sharesies")
+		b.logger.Println("Failed to authenticated Sharesies")
 		return err
 	}
 
 	costOrders := []*sharesies.CostBuyResponse{}
 	for _, v := range orders {
-		logger.Println("Checking order price for " + v.Reference)
-		cb, err := s.CostBuy(ctx, v.Id, v.Amount)
+		b.logger.Println("Checking order price for " + v.Reference)
+		cb, err := b.client.CostBuy(ctx, v.Id, v.Amount)
 		if err != nil {
 			return err
 		}
@@ -35,12 +35,12 @@ func buyOrders(ctx context.Context, s ExchangeClient, creds *Credentials, orders
 	}
 
 	for _, co := range costOrders {
-		_, err = s.Buy(ctx, co)
+		_, err = b.client.Buy(ctx, co)
 		if err != nil {
 			return err
 		}
 	}
 
-	logger.Printf("Stonks! We bought everything")
+	b.logger.Println("Stonks! We bought everything")
 	return nil
 }

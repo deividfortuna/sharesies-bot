@@ -19,14 +19,30 @@ type ExchangeClient interface {
 	Buy(ctx context.Context, costBuy *sharesies.CostBuyResponse) (*sharesies.ProfileResponse, error)
 }
 
-var logger = log.New(os.Stdout, "SharesiesBot: ", log.LstdFlags)
+type SharesiesBot struct {
+	scheduler Scheduler
+	client    ExchangeClient
+	config    *AutoInvest
+	logger    *log.Logger
+}
 
-func Run(cr Scheduler, s ExchangeClient, conf *AutoInvest) error {
+func New(scheduler Scheduler, client ExchangeClient, config *AutoInvest) *SharesiesBot {
+	var logger = log.New(os.Stdout, "SharesiesBot: ", log.LstdFlags)
+
+	return &SharesiesBot{
+		scheduler,
+		client,
+		config,
+		logger,
+	}
+}
+
+func (b *SharesiesBot) Run() error {
 	ctx := context.Background()
 
-	if conf.Buy != nil {
-		_, err := cr.AddFunc(conf.Buy.Scheduler, func() {
-			err := buyOrders(ctx, s, conf.Sharesies, conf.Buy.Orders)
+	if b.config.Buy != nil {
+		_, err := b.scheduler.AddFunc(b.config.Buy.Scheduler, func() {
+			err := b.buyOrders(ctx, b.config.Buy.Orders)
 			if err != nil {
 				log.Fatal(err)
 			}
