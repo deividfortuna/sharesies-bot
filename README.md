@@ -39,3 +39,16 @@ buy:
       id: 860a502e-d07c-435e-9dcc-7d4631a4ee21
       amount: 1.00
 ```
+
+### Docker Compose
+```yml
+version: "3"
+
+services:
+  sharesiesbot:
+    image: deividfortuna/sharesies-bot:latest
+    container_name: sharesies-bot
+    volumes:
+      - './config/:/config'
+    restart: unless-stopped
+```
