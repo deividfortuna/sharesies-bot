@@ -19,4 +19,16 @@ type BuyConfiguration struct {
 type AutoInvest struct {
 	Sharesies *Credentials
 	Buy       *BuyConfiguration
+	Balance   *BalanceConfiguration
+}
+
+type BalanceConfiguration struct {
+	Scheduler string `validate:"required"`
+	Holds     []Hold `validate:"required"`
+}
+
+type Hold struct {
+	Reference string  `validate:"required"`
+	Id        string  `validate:"required"`
+	Weight    float64 `validate:"required"`
 }

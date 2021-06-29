@@ -53,5 +53,18 @@ func (b *SharesiesBot) Run() error {
 		}
 	}
 
+	if b.config.Balance != nil {
+		_, err := b.scheduler.AddFunc(b.config.Balance.Scheduler, func() {
+			err := b.balance(ctx, b.config.Balance.Holds)
+			if err != nil {
+				log.Fatal(err)
+			}
+		})
+
+		if err != nil {
+			return err
+		}
+	}
+
 	return nil
 }

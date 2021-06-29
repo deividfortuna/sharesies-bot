@@ -29,13 +29,23 @@ sharesies:
   username: test@test.com
   password: password
 
+balance:
+  scheduler: 0 0 1 */6 * # 6 Month
+  holds: 
+    - reference: Delegat Group
+      id: 0545fbc5-b579-4944-9057-55d01849a493
+      weight: 50 # 50%
+    - reference: ANZ
+      id: 860a502e-d07c-435e-9dcc-7d4631a4ee21
+      weight: 50 # 50%
+
 buy:
   scheduler: "0 8 * * MON" # Monday 8am
   orders:
-    - reference: Delegat Group # Only for log porpose
+    - reference: Delegat Group # Only for log purpose
       id: 0545fbc5-b579-4944-9057-55d01849a493
       amount: 1.00
-    - reference: ANZ # Only for log porpose
+    - reference: ANZ # Only for log purpose
       id: 860a502e-d07c-435e-9dcc-7d4631a4ee21
       amount: 1.00
 ```

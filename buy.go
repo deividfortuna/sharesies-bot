@@ -19,7 +19,7 @@ func (b *SharesiesBot) buyOrders(ctx context.Context, orders []BuyOrder) error {
 		return err
 	}
 
-	costOrders := []*sharesies.CostBuyResponse{}
+	var costOrders []*sharesies.CostBuyResponse
 	for _, v := range orders {
 		b.logger.Println("Checking order price for " + v.Reference)
 		cb, err := b.client.CostBuy(ctx, v.Id, v.Amount)

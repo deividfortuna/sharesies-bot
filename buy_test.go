@@ -18,7 +18,7 @@ var mockConfiguration = &AutoInvest{
 	},
 	Sharesies: &Credentials{
 		Username: "username",
-		Password: "passowrd",
+		Password: "password",
 	},
 }
 
@@ -42,7 +42,7 @@ func Test_Buy(t *testing.T) {
 		Type:      "order_cost_buy",
 	}
 
-	sharesiesMock.On("Authenticate", ctx, &sharesies.Credentials{Username: "username", Password: "passowrd"}).Return(nil, nil)
+	sharesiesMock.On("Authenticate", ctx, &sharesies.Credentials{Username: "username", Password: "password"}).Return(nil, nil)
 	sharesiesMock.On("CostBuy", ctx, mockOrder.Id, mockOrder.Amount).Return(costBuyResponseMock, nil)
 	sharesiesMock.On("Buy", ctx, costBuyResponseMock).Return(nil, nil)
 
@@ -64,7 +64,7 @@ func Test_Buy_Fail_Auth(t *testing.T) {
 	errAuthFailed := errors.New("auth_failed")
 
 	sharesiesMock := &mocks.ExchangeClient{}
-	sharesiesMock.On("Authenticate", ctx, &sharesies.Credentials{Username: "username", Password: "passowrd"}).Return(nil, errAuthFailed)
+	sharesiesMock.On("Authenticate", ctx, &sharesies.Credentials{Username: "username", Password: "password"}).Return(nil, errAuthFailed)
 
 	bot := &SharesiesBot{
 		scheduler: &mocks.Scheduler{},
@@ -85,7 +85,7 @@ func Test_Buy_Fail_Get_Price_Generic(t *testing.T) {
 
 	sharesiesMock := &mocks.ExchangeClient{}
 
-	sharesiesMock.On("Authenticate", ctx, &sharesies.Credentials{Username: "username", Password: "passowrd"}).Return(nil, nil)
+	sharesiesMock.On("Authenticate", ctx, &sharesies.Credentials{Username: "username", Password: "password"}).Return(nil, nil)
 	sharesiesMock.On("CostBuy", ctx, mockOrder.Id, mockOrder.Amount).Return(nil, errGeneric)
 
 	bot := &SharesiesBot{
@@ -111,7 +111,7 @@ func Test_Buy_Fail_Get_Price(t *testing.T) {
 		Type:      "failed",
 	}
 
-	sharesiesMock.On("Authenticate", ctx, &sharesies.Credentials{Username: "username", Password: "passowrd"}).Return(nil, nil)
+	sharesiesMock.On("Authenticate", ctx, &sharesies.Credentials{Username: "username", Password: "password"}).Return(nil, nil)
 	sharesiesMock.On("CostBuy", ctx, mockOrder.Id, mockOrder.Amount).Return(costBuyResponseMock, nil)
 
 	bot := &SharesiesBot{
@@ -138,7 +138,7 @@ func Test_Buy_Fail_Buy(t *testing.T) {
 		Type:      "order_cost_buy",
 	}
 
-	sharesiesMock.On("Authenticate", ctx, &sharesies.Credentials{Username: "username", Password: "passowrd"}).Return(nil, nil)
+	sharesiesMock.On("Authenticate", ctx, &sharesies.Credentials{Username: "username", Password: "password"}).Return(nil, nil)
 	sharesiesMock.On("CostBuy", ctx, mockOrder.Id, mockOrder.Amount).Return(costBuyResponseMock, nil)
 	sharesiesMock.On("Buy", ctx, costBuyResponseMock).Return(nil, errBuy)
 
