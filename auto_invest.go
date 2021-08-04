@@ -17,6 +17,8 @@ type ExchangeClient interface {
 	Authenticate(ctx context.Context, creds *sharesies.Credentials) (*sharesies.ProfileResponse, error)
 	CostBuy(ctx context.Context, fundId string, amount float64) (*sharesies.CostBuyResponse, error)
 	Buy(ctx context.Context, costBuy *sharesies.CostBuyResponse) (*sharesies.ProfileResponse, error)
+	CostSell(ctx context.Context, foundId string, shareAmount float64) (*sharesies.CostSellResponse, error)
+	Sell(ctx context.Context, sellBuy *sharesies.CostSellResponse) (*sharesies.ProfileResponse, error)
 }
 
 type SharesiesBot struct {

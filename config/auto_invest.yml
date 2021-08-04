@@ -11,3 +11,12 @@ buy:
     - reference: ANZ
       id: 860a502e-d07c-435e-9dcc-7d4631a4ee21
       amount: 1.00
+    - reference: Heartland Group Holdings
+      id: 41e49ef0-af54-4b66-afa7-d41297427ac5
+      amount: 1.00
+    - reference: Oceania Healthcare
+      id: 4f6f6f15-2086-4863-8f17-28bf29b42b1f
+      amount: 1.00
+    - reference: Marlin Global
+      id: c914b436-5518-4f13-b256-59118478a64b
+      amount: 1.00

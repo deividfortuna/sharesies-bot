@@ -3,6 +3,7 @@ package shresiesbot
 import (
 	"context"
 	"errors"
+	"github.com/stretchr/testify/mock"
 	"log"
 	"testing"
 
@@ -24,15 +25,27 @@ func Test_Balance(t *testing.T) {
 		TotalCost: "13.79",
 		Type:      "order_cost_buy",
 	}
+
+	costSellMock := &sharesies.CostSellResponse{
+		FundID:  "HOLD_1",
+		Request: &sharesies.OrderSell{
+			Type:        "share_market",
+			ShareAmount: "0.2161780843392381",
+		},
+		Type:    "order_cost_sell",
+	}
+
 	sharesiesMock := &mocks.ExchangeClient{}
 	sharesiesMock.On("Authenticate", ctx, &sharesies.Credentials{Username: "username", Password: "password"}).Return(&sharesies.ProfileResponse{
 		Portfolio: []*sharesies.Portfolio{
-			{FundID: "HOLD_1", Value: "63.79"},
-			{FundID: "HOLD_2", Value: "36.21"},
+			{FundID: "HOLD_1", Value: "63.79", Shares: "1"},
+			{FundID: "HOLD_2", Value: "36.21", Shares: "1"},
 		},
 	}, nil)
 	sharesiesMock.On("CostBuy", ctx, "HOLD_2", 13.79).Once().Return(costBuyMock, nil)
 	sharesiesMock.On("Buy", ctx, costBuyMock).Once().Return(nil, nil)
+	sharesiesMock.On("CostSell", ctx, "HOLD_1", 0.2161780843392381).Once().Return(costSellMock, nil)
+	sharesiesMock.On("Sell", ctx, mock.Anything).Once().Return(nil, nil)
 
 	bot := &SharesiesBot{
 		scheduler: &mocks.Scheduler{},
