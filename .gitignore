@@ -1,2 +1,5 @@
 .vscode/
 .idea/
+
+# sensivel data
+config/auto_invest.yml

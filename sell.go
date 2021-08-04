@@ -3,13 +3,18 @@ package shresiesbot
 import (
 	"context"
 	"errors"
-
 	"github.com/deividfortuna/sharesies"
 )
 
-var orderCostBuyType = "order_cost_buy"
+var orderSellBuyType = "order_cost_sell"
 
-func (b *SharesiesBot) buyOrders(ctx context.Context, orders []BuyOrder) error {
+type SellOrder struct {
+	Id string
+	Reference string
+	Shares float64
+}
+
+func (b *SharesiesBot) sellOrders(ctx context.Context, orders []SellOrder) error {
 	_, err := b.client.Authenticate(ctx, &sharesies.Credentials{
 		Username: b.config.Sharesies.Username,
 		Password: b.config.Sharesies.Password,
@@ -19,28 +24,28 @@ func (b *SharesiesBot) buyOrders(ctx context.Context, orders []BuyOrder) error {
 		return err
 	}
 
-	var costOrders []*sharesies.CostBuyResponse
+	var sellOrders []*sharesies.CostSellResponse
 	for _, v := range orders {
 		b.logger.Println("Checking order price for " + v.Reference)
-		cb, err := b.client.CostBuy(ctx, v.Id, v.Amount)
+		cs, err := b.client.CostSell(ctx, v.Id, v.Shares)
 		if err != nil {
 			return err
 		}
 
-		if cb.Type != orderCostBuyType {
-			return errors.New(cb.Type)
+		if cs.Type != orderSellBuyType {
+			return errors.New(cs.Type)
 		}
 
-		costOrders = append(costOrders, cb)
+		sellOrders = append(sellOrders, cs)
 	}
 
-	for _, co := range costOrders {
-		_, err = b.client.Buy(ctx, co)
+	for _, so := range sellOrders {
+		_, err = b.client.Sell(ctx, so)
 		if err != nil {
 			return err
 		}
 	}
 
-	b.logger.Println("Stonks! We bought everything")
+	b.logger.Println("Stonks! We sold everything")
 	return nil
 }

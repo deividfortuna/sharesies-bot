@@ -82,3 +82,49 @@ func (_m *ExchangeClient) CostBuy(ctx context.Context, fundId string, amount flo
 
 	return r0, r1
 }
+
+// CostSell provides a mock function with given fields: ctx, foundId, shareAmount
+func (_m *ExchangeClient) CostSell(ctx context.Context, foundId string, shareAmount float64) (*sharesies.CostSellResponse, error) {
+	ret := _m.Called(ctx, foundId, shareAmount)
+
+	var r0 *sharesies.CostSellResponse
+	if rf, ok := ret.Get(0).(func(context.Context, string, float64) *sharesies.CostSellResponse); ok {
+		r0 = rf(ctx, foundId, shareAmount)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*sharesies.CostSellResponse)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(context.Context, string, float64) error); ok {
+		r1 = rf(ctx, foundId, shareAmount)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// Sell provides a mock function with given fields: ctx, sellBuy
+func (_m *ExchangeClient) Sell(ctx context.Context, sellBuy *sharesies.CostSellResponse) (*sharesies.ProfileResponse, error) {
+	ret := _m.Called(ctx, sellBuy)
+
+	var r0 *sharesies.ProfileResponse
+	if rf, ok := ret.Get(0).(func(context.Context, *sharesies.CostSellResponse) *sharesies.ProfileResponse); ok {
+		r0 = rf(ctx, sellBuy)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*sharesies.ProfileResponse)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(context.Context, *sharesies.CostSellResponse) error); ok {
+		r1 = rf(ctx, sellBuy)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
