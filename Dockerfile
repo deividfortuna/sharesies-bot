@@ -15,7 +15,7 @@ COPY cmd/ ./cmd/
 RUN go build -ldflags="-s -w -X main.Version=$VERSION" -o ./out/sharesies-bot ./cmd/ 
 
 
-FROM alpine:3.9 
+FROM alpine:3
 
 RUN apk add ca-certificates
 RUN apk add --no-cache tzdata

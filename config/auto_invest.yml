@@ -3,20 +3,48 @@ sharesies:
   password: password
 
 buy:
-  scheduler: "0 8 * * MON"
+  scheduler: "0 8 * * 1-5"
   orders:
     - reference: Delegat Group
       id: 0545fbc5-b579-4944-9057-55d01849a493
       amount: 1.00
+
     - reference: ANZ
       id: 860a502e-d07c-435e-9dcc-7d4631a4ee21
       amount: 1.00
+
     - reference: Heartland Group Holdings
       id: 41e49ef0-af54-4b66-afa7-d41297427ac5
       amount: 1.00
+
     - reference: Oceania Healthcare
       id: 4f6f6f15-2086-4863-8f17-28bf29b42b1f
       amount: 1.00
+
     - reference: Marlin Global
       id: c914b436-5518-4f13-b256-59118478a64b
+      amount: 1.00
+
+    - reference: The Warehouse Group
+      id: 06e830c1-386b-40f2-9f3d-cc62624dfbc9
+      amount: 1.00
+
+    - reference: Briscoe Group
+      id: a1d9edce-63eb-43b0-b989-7a7f5724de9d
+      amount: 1.00
+
+    - reference: Kiwi Property Group
+      id: 77a9858d-2fbc-4668-b551-ed03d9151a2a
+      amount: 1.00
+
+    - reference: South Port New Zealand
+      id: 95bfc6ec-37de-4c26-8c7c-60c0b51cda51
+      amount: 1.00
+
+    - reference: Spark New Zealand
+      id: ce3e22d2-fb82-42d5-bf44-0838af30de24
+      amount: 1.00
+
+    - reference: Contact Energy
+      id: bd3bd5ed-aaac-4331-8907-ca2ce3e166ee
       amount: 1.00
