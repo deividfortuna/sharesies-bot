@@ -1,7 +1,6 @@
 package main
 
 import (
-	"io/ioutil"
 	"log"
 	"os"
 	"os/signal"
@@ -11,7 +10,7 @@ import (
 	"github.com/deividfortuna/sharesies"
 	"github.com/go-playground/validator/v10"
 	"github.com/robfig/cron/v3"
-	"gopkg.in/yaml.v2"
+	"gopkg.in/yaml.v3"
 
 	shresiesbot "github.com/deividfortuna/sharesies-bot"
 )
@@ -67,7 +66,7 @@ func main() {
 
 func loadConfig(filePath string) (*shresiesbot.AutoInvest, error) {
 	v := &shresiesbot.AutoInvest{}
-	f, err := ioutil.ReadFile(filePath)
+	f, err := os.ReadFile(filePath)
 	if err != nil {
 		return nil, err
 	}

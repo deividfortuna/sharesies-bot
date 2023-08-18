@@ -19,7 +19,7 @@ func Test_Run_Balance(t *testing.T) {
 	mockConfig := &shresiesbot.AutoInvest{
 		Balance: &shresiesbot.BalanceConfiguration{
 			Scheduler: "MY_SCHEDULER",
-			Holds:    []shresiesbot.Hold{},
+			Holds:     []shresiesbot.Hold{},
 		},
 	}
 
@@ -43,7 +43,7 @@ func Test_Run_Balance_Fail(t *testing.T) {
 	mockConfig := &shresiesbot.AutoInvest{
 		Balance: &shresiesbot.BalanceConfiguration{
 			Scheduler: "MY_SCHEDULER",
-			Holds:    []shresiesbot.Hold{},
+			Holds:     []shresiesbot.Hold{},
 		},
 	}
 

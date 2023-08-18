@@ -8,7 +8,7 @@ import (
 )
 
 type holdPrice struct {
-	Value float64
+	Value    float64
 	Quantity float64
 }
 
@@ -32,7 +32,7 @@ func (b *SharesiesBot) balance(ctx context.Context, holds []Hold) error {
 				if err != nil {
 					return err
 				}
-				portfolioHolds[v.FundID] = holdPrice{ Value: value, Quantity: quantity }
+				portfolioHolds[v.FundID] = holdPrice{Value: value, Quantity: quantity}
 				portfolioValue = portfolioValue + value
 			}
 		}
@@ -53,9 +53,9 @@ func (b *SharesiesBot) balance(ctx context.Context, holds []Hold) error {
 		}
 
 		if v < portfolioHolds[h.Id].Value {
-			difference := portfolioHolds[h.Id].Value-v
-			sharePrice := portfolioHolds[h.Id].Value/portfolioHolds[h.Id].Quantity
-			shareQuantity := difference/sharePrice
+			difference := portfolioHolds[h.Id].Value - v
+			sharePrice := portfolioHolds[h.Id].Value / portfolioHolds[h.Id].Quantity
+			shareQuantity := difference / sharePrice
 
 			sOrders = append(sOrders, SellOrder{
 				Id:        h.Id,

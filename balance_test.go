@@ -27,12 +27,12 @@ func Test_Balance(t *testing.T) {
 	}
 
 	costSellMock := &sharesies.CostSellResponse{
-		FundID:  "HOLD_1",
+		FundID: "HOLD_1",
 		Request: &sharesies.OrderSell{
 			Type:        "share_market",
 			ShareAmount: "0.2161780843392381",
 		},
-		Type:    "order_cost_sell",
+		Type: "order_cost_sell",
 	}
 
 	sharesiesMock := &mocks.ExchangeClient{}

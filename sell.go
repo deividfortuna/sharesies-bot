@@ -9,9 +9,9 @@ import (
 var orderSellBuyType = "order_cost_sell"
 
 type SellOrder struct {
-	Id string
+	Id        string
 	Reference string
-	Shares float64
+	Shares    float64
 }
 
 func (b *SharesiesBot) sellOrders(ctx context.Context, orders []SellOrder) error {
